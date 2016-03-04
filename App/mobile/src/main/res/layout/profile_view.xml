@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@+id/item_profile_view"
+    android:background="#111111">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:id="@+id/fill_profile_view"/>
+
+    <ImageButton
+        android:layout_width="100dip"
+        android:scaleType="fitXY"
+        android:layout_height="124dip"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/congre_imageButton"
+        android:src="@drawable/obama"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@+id/congre_imageButton"
+        android:id="@+id/congre_relativeLayout1"
+        >
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:id="@+id/congre_imageView_name"
+            android:src="@drawable/name_red"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_marginTop="1.5dp"
+            android:text="Barack Obama (Senator)"
+            android:textSize="14dp"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/congre_textView_name" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:id="@+id/congre_imageView_party"
+            android:layout_below="@id/congre_imageView_name"
+            android:src="@drawable/party_red"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:layout_below="@+id/congre_textView_name"
+            android:layout_alignStart="@+id/congre_textView_name"
+            android:text="Democrat"
+            android:textSize="14dp"
+            android:textColor="#FFFFFF"
+            android:id="@+id/congre_textView_party" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_below="@id/congre_imageView_party"
+            android:id="@+id/congre_imageView_email"
+            android:src="@drawable/email_red"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:text="obama@gmail.com"
+            android:textSize="14dp"
+            android:id="@+id/congre_textView_email"
+            android:textColor="#FFFFFF"
+            android:layout_below="@+id/congre_textView_party"
+            android:layout_alignStart="@id/congre_textView_party"/>
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
+            android:layout_below="@id/congre_imageView_email"
+            android:id="@+id/congre_imageView_web"
+            android:src="@drawable/web_red"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="21dp"
+            android:text="www.obama.com"
+            android:textSize="14dp"
+            android:textColor="#FFFFFF"
+            android:id="@+id/congre_textView_web"
+            android:layout_below="@+id/congre_textView_email"
+            android:layout_alignStart="@id/congre_textView_email" />
+
+        <Button
+            android:layout_width="103dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/congre_imageView_web"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="8dp"
+            android:text="More details"
+            android:textSize="13dp"
+            android:textColor="#FFFFFF"
+            android:background="#444444"
+            android:id="@+id/congre_button_detail" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
+        android:id="@+id/congre_relativeLayout2"
+        android:layout_alignLeft="@+id/congre_imageButton"
+        android:layout_below="@+id/congre_imageButton"
+        android:background="#444444">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:text="Last tweet:"
+            android:textColor="#FFFFFF"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:id="@+id/congre_textView_lastTweetTitle"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/congre_textView_lastTweetText"
+            android:text="I am a cat. Meowmeowmeow......."
+            android:layout_below="@+id/congre_textView_lastTweetTitle"
+            android:textSize="14dp"
+            android:textColor="#FFFFFF"/>
+
+    </RelativeLayout>
+</RelativeLayout>

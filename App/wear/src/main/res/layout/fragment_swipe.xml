@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yanrongli.cs260a_hw2.SwipeFragment"
+    android:background="#111111">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Here is the name"
+        android:textColor="#FFFFFF"
+        android:id="@+id/frag_textView_name"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/frag_textView_party"
+        android:text="Here is the party"
+        android:textColor="#FFFFFF"
+        android:layout_below="@id/frag_textView_name"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_below="@+id/frag_textView_party"
+        android:layout_marginTop="20dp"
+        android:id="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:text="MORE INFO"
+        android:background="#444444"
+        android:textColor="#FFFFFF"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frag_textView_party"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:text="Obama      vs      Romney"
+        android:textColor="#FFFFFF"
+        android:id="@+id/frag_textView_vs"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frag_textView_vs"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:text="%"
+        android:textColor="#FFFFFF"
+        android:id="@+id/frag_textView_obamavote"
+        android:visibility="invisible"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frag_textView_vs"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="130dp"
+        android:text="%"
+        android:textColor="#FFFFFF"
+        android:id="@+id/frag_textView_romneyvote"
+        android:visibility="invisible"
+        />
+
+
+
+</RelativeLayout>

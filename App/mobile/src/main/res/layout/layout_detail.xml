@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:background="#111111">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#111111"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            android:background="#111111"
+            android:id="@+id/detail_layout_profile"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="250dp"
+                android:scaleType="fitXY"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/obama"
+                android:id="@+id/detail_imageView"
+                android:layout_centerHorizontal="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="230dp"
+                android:layout_marginLeft="78dp"
+                android:text="Barack Obama (Senator)"
+                android:textSize="15dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/detail_textView_name"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/detail_textView_name"
+                android:layout_marginTop="0dp"
+                android:text="Democrat"
+                android:textSize="15dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/detail_textView_party"
+                android:layout_alignStart="@+id/detail_textView_name"
+                />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/detail_layout_profile"
+            android:id="@+id/detail_layout_date"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border_red">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="End Date of Term in Senate/House"
+                android:textSize="16dp"
+                android:textColor="#FFFFFF"
+                android:id="@+id/detail_endDateTitle"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/detail_endDateTitle"
+                android:textAlignment="center"
+                android:text="Jan 1 2015"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/detail_endDate"/>
+
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:layout_below="@+id/detail_layout_date"
+            android:layout_marginTop="5dp"
+            android:id="@+id/detail_layout_committee"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Name of Committees Serving On"
+                android:textSize="16dp"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/detail_committeeTitle"/>
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_listView_committees"
+                android:layout_below="@+id/detail_committeeTitle"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"></ListView>
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="300dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/detail_layout_committee"
+            android:id="@+id/detail_layout_sponsor"
+            android:layout_centerHorizontal="true">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Recent Bills Having Sponsored"
+                android:layout_marginTop="10dp"
+                android:textSize="16dp"
+                android:textColor="#FFFFFF"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/detail_sponsorTitle"/>
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/detail_listView_sponsors"
+                android:layout_below="@+id/detail_sponsorTitle"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"></ListView>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</ScrollView>
