@@ -89,10 +89,10 @@ public class SwipeFragment extends android.support.v4.app.Fragment {
             textViewName.setText(name);
             textViewParty.setText(party);
             Button button = (Button) view.findViewById(R.id.button);
-            if(party.equals("Democrat")) {
+            if(party.equals("Republican")) {
                 button.setBackgroundResource(R.drawable.border_red);
             }
-            else if(party.equals("Republican")) {
+            else if(party.equals("Democrat")) {
                 button.setBackgroundResource(R.drawable.border_blue);
             }
             else {
@@ -112,7 +112,10 @@ public class SwipeFragment extends android.support.v4.app.Fragment {
 
         }
         else if(position == length) {
-            String location = bundle.getString("Location");
+            String county = bundle.getString("County");
+            String state = bundle.getString("State");
+            String obama_vote = bundle.getString("ObamaVote");
+            String romney_vote = bundle.getString("RomneyVote");
             textViewTitle = (TextView) view.findViewById(R.id.frag_textView_name);
             textViewLocation = (TextView) view.findViewById(R.id.frag_textView_party);
             textViewVS = (TextView) view.findViewById(R.id.frag_textView_vs);
@@ -121,13 +124,13 @@ public class SwipeFragment extends android.support.v4.app.Fragment {
             Button button = (Button) view.findViewById(R.id.button);
 
             textViewTitle.setText("2012 Presidential Vote");
-            textViewLocation.setText(location);
+            textViewLocation.setText(county + ", " + state);
             textViewVS.setVisibility(View.VISIBLE);
             textViewVoteObama.setVisibility(View.VISIBLE);
             textViewVoteRomney.setVisibility(View.VISIBLE);
             button.setVisibility(View.INVISIBLE);
-            textViewVoteObama.setText("55%");
-            textViewVoteRomney.setText("45%");
+            textViewVoteObama.setText(obama_vote + "%");
+            textViewVoteRomney.setText(romney_vote + "%");
 
         }
 

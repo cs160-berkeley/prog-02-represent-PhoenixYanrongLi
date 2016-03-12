@@ -42,6 +42,13 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="4821560a8765490fa3acfb2d751198ac6a32ec9e" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC4ejrsUZXmtYLCMmgEFBjkduOolOavt90"/>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

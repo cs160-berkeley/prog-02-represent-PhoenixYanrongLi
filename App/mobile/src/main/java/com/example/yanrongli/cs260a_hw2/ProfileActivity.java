@@ -8,25 +8,64 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.TwitterApiClient;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.models.Tweet;
+import com.twitter.sdk.android.core.services.StatusesService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by yanrongli on 2/27/16.
  */
 public class ProfileActivity extends Activity {
+    //Google API:
+    private String site = "http://congress.api.sunlightfoundation.com/legislators/locate?";
+    private String apikey = "&apikey=b56168748ed24025a1c714a4b4ea6d70";
     private String myLocation = "";
     private String myZipcode = "";
+    private String myMode = "";
+    private String myCoordinates = "";
+    private String myLongitude = "";
+    private String myLatitude = "";
+    private String myCounty = "";
+    private String myState = "";
+    private int myProfileCount = 0;
+    private TwitterApiClient myTwitterApiClient;
+    //Twitter API
+    private static final String TWITTER_KEY = "DmmfIS6oa75ZT1Lc5FNjG2jr7";
+    private static final String TWITTER_SECRET = "IS7kVbG8uNW4vxMnjUj1AFupYFCgl4RjiIuBTrvaOPrIgeCy9s";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.layout_congre);
+        myTwitterApiClient = TwitterCore.getInstance().getApiClient();
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
 
         Intent intent = getIntent();
         String previousActivity = intent.getExtras().getString("callingActivity");
@@ -35,63 +74,136 @@ public class ProfileActivity extends Activity {
             String message = intent.getExtras().getString("message_from_watch");
             if(message.equals("random"))
             {
-                setContentView(R.layout.layout_congre);
+                myZipcode = intent.getExtras().getString("zipcode");
+                myLocation = intent.getExtras().getString("location");
+                myMode = intent.getExtras().getString("searchMode");
+                myCoordinates = intent.getExtras().getString("coordinates");
+                myCounty = myLocation.split(", ")[0];
+                myState = myLocation.split(", ")[1];
+                myLatitude = myCoordinates.split("_")[1];
+                myLongitude = myCoordinates.split("_")[0];
+
+
                 TextView searchBy = (TextView) findViewById(R.id.congre_textView_searchBy);
-                double randNum = Math.random();
-                searchBy.setText("Search randomly: " + String.valueOf(randNum));
-                //may need other operation to fill in the data.
-                //Also need to send an intent to PhoneToWatchService!!!!!
-                populateProfileList();
-                populateListView();
-                sendProfileToWatch();
-            }
-            else
-            {
-                int position = 0;
-                for(int i = 0; i < PublicData.myProfiles.size(); i++)
-                {
-                    if(message.equals(PublicData.myProfiles.get(i).getName()))
-                    {
-                        position = i;
-                    }
+                if(myMode.equals("location")) {
+                    searchBy.setText("Search by location: " + myLocation);
+                }
+                else if(myMode.equals("zipcode")) {
+                    searchBy.setText("Search by zipcode: " + myZipcode);
+                }
+                else {
+                    searchBy.setText("Search randomly: " + myLocation);
                 }
 
-                Intent nextIntent = new Intent(ProfileActivity.this, DetailActivity.class);
-                nextIntent.putExtra("name", PublicData.myProfiles.get(position).getName());
-                nextIntent.putExtra("party", PublicData.myProfiles.get(position).getParty());
-                nextIntent.putExtra("iconID", (int)(PublicData.myProfiles.get(position).getIconID()));
-                startActivity(nextIntent);
-                //nextIntent.putExtra("",)
-                //....here put more if needed.
+                populateProfileList();
+
             }
         }
         else if(previousActivity.equals("MainActivity")){
-            setContentView(R.layout.layout_congre);
             myZipcode = intent.getExtras().getString("zipcode");
             myLocation = intent.getExtras().getString("location");
+            myMode = intent.getExtras().getString("searchMode");
+            myCoordinates = intent.getExtras().getString("coordinates");
+            myCounty = myLocation.split(", ")[0];
+            myState = myLocation.split(", ")[1];
+            myLatitude = myCoordinates.split("_")[1];
+            myLongitude = myCoordinates.split("_")[0];
+
 
             TextView searchBy = (TextView) findViewById(R.id.congre_textView_searchBy);
-            if(myZipcode.equals(""))
+            if(myMode.equals("location")) {
                 searchBy.setText("Search by location: " + myLocation);
-            else
+            }
+            else if(myMode.equals("zipcode")) {
                 searchBy.setText("Search by zipcode: " + myZipcode);
+            }
+            else {
+                searchBy.setText("Search randomly: " + myLocation);
+            }
 
             populateProfileList();
-            populateListView();
-            sendProfileToWatch();
+
         }
+
     }
 
     private void populateProfileList() {
         PublicData.myProfiles = new ArrayList<Profile>();
-        //Here we might need to generate several more profile items due to a hardware issue
-        //May need to adapt to API. The profiles should be read from API data. The API data should be stored in a private variable.
-        PublicData.myProfiles.add(new Profile("Barack Obama", R.drawable.obama, "Democrat", "obama@gmail.com", "www.obama.com", "Yes we can!"));
-        PublicData.myProfiles.add(new Profile("Albus Dumbledore", R.drawable.albus, "Republican", "albus@gmail.com", "www.albus.com","Deathly Hallows."));
-        PublicData.myProfiles.add(new Profile("Gandalf", R.drawable.gandalf, "Independent", "gandalf@sina.com", "www.gandalf.cn", "You shall not pass!"));
-        PublicData.myProfiles.add(new Profile("Jon Snow", R.drawable.snow, "Republican", "snow@gmail.com", "www.snow.com","Winter is coming"));
-        PublicData.myProfiles.add(new Profile("Saruman", R.drawable.saruman, "Independent", "saruman@sina.com", "www.saruman.cn","This is the doom of mankind!"));
-        PublicData.myProfiles.add(new Profile("Tyrion Lennister", R.drawable.tyrion, "Democrat", "tyrion@gmail.com", "www.tlenni.com","A dwarf is the same as a bastard in their father's eyes."));
+        String request = "";
+        if(myMode.equals("zipcode")){
+            request = site + "zip=" + myZipcode + apikey;
+        }
+        else { // by location or randomly
+            request = site + "latitude=" + myLatitude + "&longitude=" + myLongitude + apikey;
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, request, null, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jProfileList) {
+                        try{
+                            myProfileCount = jProfileList.getInt("count");
+                            JSONArray results = jProfileList.optJSONArray("results");
+
+                            for(int i = 0; i < myProfileCount; i++)
+                            {
+                                JSONObject profile = results.getJSONObject(i);
+                                String name = profile.getString("first_name") + " " + profile.getString("last_name");
+                                String title = "";
+                                if(profile.getString("title").equals("Sen")){
+                                    title = "Sen.";
+                                }
+                                else{
+                                    title = "Rep.";
+                                }
+
+                                String party = "";
+                                if(profile.getString("party").equals("R")){
+                                    party = "Republican";
+                                }
+                                else if(profile.getString("party").equals("D")){
+                                    party = "Democrat";
+                                }
+                                else {
+                                    party = "Independent";
+                                }
+
+                                String email = profile.getString("oc_email");
+                                String website = profile.getString("website");
+                                String twitterId = profile.getString("twitter_id");
+                                String termEnd = profile.getString("term_end");
+                                String userId = profile.getString("bioguide_id");
+                                PublicData.myProfiles.add(new Profile(userId, name, title, party, email, website, twitterId, termEnd));
+
+                                //populateListView();
+                                System.out.println("what the fuck?????");
+                            }
+                            //fill in the dummy data
+                            //PublicData.myProfiles.add(new Profile("dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata"));
+                            //PublicData.myProfiles.add(new Profile("dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata"));
+                            //PublicData.myProfiles.add(new Profile("dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata"));
+                            //PublicData.myProfiles.add(new Profile("dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata","dummydata"));
+                            PublicData.myProfiles.add(new Profile(" "," "," "," "," "," ","dummydata"," "));
+                            PublicData.myProfiles.add(new Profile(" "," "," "," "," "," ","dummydata"," "));
+                            PublicData.myProfiles.add(new Profile(" "," "," "," "," "," ","dummydata"," "));
+                            PublicData.myProfiles.add(new Profile(" "," "," "," "," "," ","dummydata"," "));
+                            populateListView();
+
+                            sendProfileToWatch();
+
+                        } catch(JSONException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+
+                    }
+                });
+        MySingleton.getInstance(this).addToRequestQueue(jsonObjectRequest);
+
+
     }
 
     private void populateListView() {
@@ -104,7 +216,7 @@ public class ProfileActivity extends Activity {
         List<String> nameList = new ArrayList<String>();
         List<String> partyList = new ArrayList<String>();
 
-        for(int i = 0; i < PublicData.myProfiles.size(); i++)
+        for(int i = 0; i < PublicData.myProfiles.size() - 4; i++)
         {
             nameList.add(PublicData.myProfiles.get(i).getName());
             partyList.add(PublicData.myProfiles.get(i).getParty());
@@ -112,14 +224,12 @@ public class ProfileActivity extends Activity {
 
         String finalNameList = TextUtils.join("_", nameList);
         String finalPartyList = TextUtils.join("_", partyList);
-
-        System.out.println(finalNameList);
-        System.out.println(finalPartyList);
+        String final2012Vote = get2012Vote(myCounty, myState);
 
         Intent intent = new Intent(ProfileActivity.this, PhoneToWatchService.class);
         intent.putExtra("name_list", finalNameList);
         intent.putExtra("party_list", finalPartyList);
-        intent.putExtra("location", myLocation);
+        intent.putExtra("2012vote", final2012Vote);
         startService(intent);
 
     }
@@ -142,20 +252,25 @@ public class ProfileActivity extends Activity {
 
             //Find the profile to work with
             final Profile currentProfile = PublicData.myProfiles.get(position);
-
-            //Fill the view
-            ImageButton imageButton = (ImageButton) itemView.findViewById(R.id.congre_imageButton);
-            imageButton.setImageResource(currentProfile.getIconID());
-            imageButton.setOnClickListener(new View.OnClickListener() {
+            //Retrieve the twitter information
+            final String screen_name = currentProfile.getTwitterId();
+            StatusesService statusesService = myTwitterApiClient.getStatusesService();
+            statusesService.userTimeline(null, screen_name, 1, null, null, null, true, null, true, new Callback<List<Tweet>>() {
+                //statusesService.show(524971209851543553L, null, null, null, new Callback<Tweet>() {
                 @Override
-                public void onClick(View v) {
-                    Intent nextIntent = new Intent(ProfileActivity.this, DetailActivity.class);
-                    nextIntent.putExtra("name", currentProfile.getName());
-                    nextIntent.putExtra("party", currentProfile.getParty());
-                    nextIntent.putExtra("iconID", (int)(currentProfile.getIconID()));
-                    startActivity(nextIntent);
+                public void success(Result<List<Tweet>> result) {
+                    //Do something with result, which provides a Tweet inside of result.data
+                    currentProfile.setTweet(result.data.get(0).text);
+                    String tmpUrl = result.data.get(0).user.profileImageUrl;
+                    currentProfile.setImgURL(tmpUrl.replaceAll("normal", "bigger"));
+                }
+                @Override
+                public void failure(TwitterException exception) {
                 }
             });
+
+            //Fill the view
+
 
             Button button = (Button) itemView.findViewById(R.id.congre_button_detail);
             button.setOnClickListener(new View.OnClickListener() {
@@ -163,9 +278,12 @@ public class ProfileActivity extends Activity {
                 public void onClick(View v) {
                     //copy the onClick above
                     Intent nextIntent = new Intent(ProfileActivity.this, DetailActivity.class);
-                    nextIntent.putExtra("name", currentProfile.getName());
+                    nextIntent.putExtra("callingActivity", "ProfileActivity");
+                    nextIntent.putExtra("userId", currentProfile.getUserId());
+                    nextIntent.putExtra("name", currentProfile.getTitle() + currentProfile.getName());
                     nextIntent.putExtra("party", currentProfile.getParty());
-                    nextIntent.putExtra("iconID", (int)(currentProfile.getIconID()));
+                    nextIntent.putExtra("termEnd", currentProfile.getTermEnd());
+                    nextIntent.putExtra("imgURL", currentProfile.getImgURL());
                     startActivity(nextIntent);
                 }
             });
@@ -176,11 +294,14 @@ public class ProfileActivity extends Activity {
             TextView webText = (TextView) itemView.findViewById(R.id.congre_textView_web);
             TextView tweetText = (TextView) itemView.findViewById(R.id.congre_textView_lastTweetText);
 
-            nameText.setText(currentProfile.getName());
+            nameText.setText(currentProfile.getTitle() + currentProfile.getName());
             partyText.setText(currentProfile.getParty());
             emailText.setText(currentProfile.getEmail());
             webText.setText(currentProfile.getWebsite());
             tweetText.setText(currentProfile.getTweet());
+
+            if(currentProfile.getTwitterId().equals("dummydata"))
+                tweetText.setText(" ");
 
             ImageView nameImage = (ImageView) itemView.findViewById(R.id.congre_imageView_name);
             ImageView partyImage = (ImageView) itemView.findViewById(R.id.congre_imageView_party);
@@ -189,7 +310,7 @@ public class ProfileActivity extends Activity {
 
             RelativeLayout tweetLayout = (RelativeLayout) itemView.findViewById(R.id.congre_relativeLayout2);
 
-            if(currentProfile.getParty().equals("Democrat"))
+            if(currentProfile.getParty().equals("Republican"))
             {
                 nameImage.setImageResource(R.drawable.name_red);
                 partyImage.setImageResource(R.drawable.party_red);
@@ -198,7 +319,7 @@ public class ProfileActivity extends Activity {
                 button.setBackgroundResource(R.drawable.border_red);
                 tweetLayout.setBackgroundResource(R.drawable.border_red);
             }
-            else if(currentProfile.getParty().equals("Republican"))
+            else if(currentProfile.getParty().equals("Democrat"))
             {
                 nameImage.setImageResource(R.drawable.name_blue);
                 partyImage.setImageResource(R.drawable.party_blue);
@@ -217,7 +338,61 @@ public class ProfileActivity extends Activity {
                 tweetLayout.setBackgroundResource(R.drawable.border_white);
             }
 
+            ImageView personImage = (ImageView) itemView.findViewById(R.id.congre_imageView_person);
+            //String URL = "http://pbs.twimg.com/profile_images/430378206353317888/3QKYak-Z_bigger.jpeg";
+            if(currentProfile.getTwitterId().equals("dummydata"))
+                personImage.setTag("http://www.freelanceme.net/Images/default%20profile%20picture.png");
+            else
+                personImage.setTag(currentProfile.getImgURL());
+            new DownloadImageTask().execute(personImage);
+
             return super.getView(position, convertView, parent);
         }
+    }
+
+    //load Json from asset directory
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getAssets().open("election-county-2012.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+    //search for 2012 vote data based on County + State
+    private String get2012Vote(String county, String state) {
+        String voteString = loadJSONFromAsset();
+        String concatVoteData = null;
+        try {
+            JSONArray jVote = new JSONArray(voteString);
+            int jVoteLength = jVote.length();
+            //search through match attributes
+            //System.out.println(county.split(" ")[0]);
+            //System.out.println(state);
+            for(int i=0; i < jVoteLength; i++) {
+                JSONObject loc = jVote.getJSONObject(i);
+                //System.out.println(loc);
+                if(loc.getString("county-name").equals(county.split(" ")[0]) && loc.getString("state-postal").equals(state)) {
+                    //location match!
+                    String obamaVote = Double.toString(loc.getDouble("obama-percentage"));
+                    String romneyVote = Double.toString(loc.getDouble("romney-percentage"));
+                    concatVoteData = county.split(" ")[0] + "_" + state + "_" + obamaVote + "_" + romneyVote;
+                    System.out.println(concatVoteData);
+                    return concatVoteData;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return concatVoteData;
     }
 }

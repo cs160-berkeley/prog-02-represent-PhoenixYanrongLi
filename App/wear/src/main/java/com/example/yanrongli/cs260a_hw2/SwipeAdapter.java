@@ -12,13 +12,19 @@ public class SwipeAdapter extends FragmentStatePagerAdapter{
 
     String[] NameList;
     String[] PartyList;
-    String Location;
+    String County;
+    String State;
+    String ObamaVote;
+    String RomneyVote;
 
-    public SwipeAdapter(FragmentManager fm, String[] name_list, String[] party_list, String location){
+    public SwipeAdapter(FragmentManager fm, String[] name_list, String[] party_list, String county, String state, String obama_vote, String romney_vote){
         super(fm);
         NameList = name_list;
         PartyList = party_list;
-        Location = location;
+        County = county;
+        State = state;
+        ObamaVote = obama_vote;
+        RomneyVote = romney_vote;
     }
 
     @Override
@@ -34,7 +40,10 @@ public class SwipeAdapter extends FragmentStatePagerAdapter{
             bundle.putString("Party", PartyList[position]);
         }
         else if(position == NameList.length){
-            bundle.putString("Location", Location);
+            bundle.putString("County", County);
+            bundle.putString("State", State);
+            bundle.putString("ObamaVote", ObamaVote);
+            bundle.putString("RomneyVote", RomneyVote);
         }
 
         fragment.setArguments(bundle);

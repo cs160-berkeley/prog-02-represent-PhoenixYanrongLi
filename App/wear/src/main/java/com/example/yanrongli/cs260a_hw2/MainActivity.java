@@ -10,10 +10,20 @@ import android.support.wearable.view.BoxInsetLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import io.fabric.sdk.android.Fabric;
+
 public class MainActivity extends WearableActivity {
+
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "STEcyp4oMjbuTLzXzVJl2a2ZZ";
+    private static final String TWITTER_SECRET = "EUrd3gwqJcIyz2sng4XgYQnxek6Hzb2c3iA6Cre446bZ08pK77";
+
 
     private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
             new SimpleDateFormat("HH:mm", Locale.US);
@@ -33,6 +43,8 @@ public class MainActivity extends WearableActivity {
 
 
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig));
         setContentView(R.layout.activity_main);
         //setAmbientEnabled();
 
@@ -48,11 +60,7 @@ public class MainActivity extends WearableActivity {
 
             public void onShake() {
                 Toast.makeText(MainActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
-                //Intent intentTest = new Intent(MainActivity.this, SwipeActivity.class);
-                //startActivity(intentTest);
 
-                //send phone a string "random", and wait to get a random profile
-                //receive the information sent from phone: string of names and corresponding parties
                 String random = "random";
                 Intent sendMessageRandom = new Intent(MainActivity.this, WatchToPhoneService.class);
                 sendMessageRandom.putExtra("string",random);

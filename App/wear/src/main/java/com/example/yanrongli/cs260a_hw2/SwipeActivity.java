@@ -19,7 +19,10 @@ public class SwipeActivity extends FragmentActivity implements SwipeFragment.OnF
     private ShakeEventListener mSensorListener;
     ViewPager viewPager;
     String[] NameList, PartyList;
-    String Location;
+    String County;
+    String State;
+    String ObamaVote;
+    String RomneyVote;
 
     public void onFragmentInteraction(Uri uri){
 
@@ -36,21 +39,21 @@ public class SwipeActivity extends FragmentActivity implements SwipeFragment.OnF
         if (extras != null) {
             String tempNameList = extras.getString("name_list");
             String tempPartyList = extras.getString("party_list");
-            String tempLocation = extras.getString("location");
+            String temp2012Vote = extras.getString("2012vote");
             if(tempNameList != null) {
-                NameList = tempNameList.split("_"); ///???????????????????????????????
-                System.out.println("*********************");
-                System.out.println(NameList);
+                NameList = tempNameList.split("_");
             }
             if(tempPartyList != null) {
                 PartyList = tempPartyList.split("_");
-                System.out.println(PartyList);
             }
-            Location = tempLocation;
+            County = temp2012Vote.split("_")[0];
+            State = temp2012Vote.split("_")[1];
+            ObamaVote = temp2012Vote.split("_")[2];
+            RomneyVote = temp2012Vote.split("_")[3];
         }
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(), NameList, PartyList, Location);
+        SwipeAdapter swipeAdapter = new SwipeAdapter(getSupportFragmentManager(), NameList, PartyList, County, State, ObamaVote, RomneyVote);
         viewPager.setAdapter(swipeAdapter);
 
         //setAmbientEnabled();
@@ -63,8 +66,7 @@ public class SwipeActivity extends FragmentActivity implements SwipeFragment.OnF
 
             public void onShake() {
                 Toast.makeText(SwipeActivity.this, "Shake!", Toast.LENGTH_SHORT).show();
-                //send phone a string "random", and wait to get a random profile
-                //receive the information sent from phone: string of names and corresponding parties
+
                 String random = "random";
                 Intent sendMessageRandom = new Intent(SwipeActivity.this, WatchToPhoneService.class);
                 sendMessageRandom.putExtra("string", random);

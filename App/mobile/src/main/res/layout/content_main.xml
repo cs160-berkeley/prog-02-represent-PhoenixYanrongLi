@@ -8,6 +8,14 @@
     tools:context="com.example.yanrongli.cs260a_hw2.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <com.twitter.sdk.android.core.identity.TwitterLoginButton
+        android:id="@+id/twitter_login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        />
+
+
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="256dp"

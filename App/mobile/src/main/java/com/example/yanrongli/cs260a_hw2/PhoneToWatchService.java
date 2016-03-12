@@ -19,7 +19,7 @@ public class PhoneToWatchService extends Service {
     private GoogleApiClient mApiClient;
     private String nameList = "";
     private String partyList = "";
-    private String location = "";
+    private String my2012Vote = "";
 
     @Override
     public void onCreate() {
@@ -53,8 +53,12 @@ public class PhoneToWatchService extends Service {
         if (extras != null) {
             nameList = extras.getString("name_list");
             partyList = extras.getString("party_list");
-            location = extras.getString("location");
+            my2012Vote = extras.getString("2012vote");
         }
+
+        System.out.println("name_list " + nameList);
+        System.out.println("party_list " + partyList);
+        System.out.println("2012vote " + my2012Vote);
 
         // Send the message with the cat name
         new Thread(new Runnable() {
@@ -66,7 +70,7 @@ public class PhoneToWatchService extends Service {
                 sendMessage("/name_list", nameList);
                 System.out.println("I just sent a message!!!");
                 try{
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                 }
                 catch ( java.lang.InterruptedException ie) {
                     System.out.println(ie);
@@ -78,7 +82,7 @@ public class PhoneToWatchService extends Service {
                 catch ( java.lang.InterruptedException ie) {
                     System.out.println(ie);
                 }
-                sendMessage("/location", location);
+                sendMessage("/2012vote", my2012Vote);
                 try{
                     Thread.sleep(100);
                 }

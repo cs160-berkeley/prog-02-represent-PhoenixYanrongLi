@@ -10,10 +10,10 @@
         android:text=""
         android:id="@+id/fill_profile_view"/>
 
-    <ImageButton
-        android:layout_width="100dip"
+    <ImageView
+        android:layout_width="110dip"
         android:scaleType="fitXY"
-        android:layout_height="124dip"
+        android:layout_height="110dip"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
         android:paddingTop="0dp"
@@ -22,31 +22,31 @@
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
-        android:id="@+id/congre_imageButton"
-        android:src="@drawable/obama"
+        android:id="@+id/congre_imageView_person"
+        android:src="@drawable/default_profile"
         />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
-        android:layout_toRightOf="@+id/congre_imageButton"
+        android:layout_toRightOf="@+id/congre_imageView_person"
         android:id="@+id/congre_relativeLayout1"
         >
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="1dp"
             android:id="@+id/congre_imageView_name"
             android:src="@drawable/name_red"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_height="18dp"
             android:layout_marginTop="1.5dp"
             android:text="Barack Obama (Senator)"
             android:textSize="14dp"
@@ -57,15 +57,15 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:id="@+id/congre_imageView_party"
             android:layout_below="@id/congre_imageView_name"
             android:src="@drawable/party_red"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_height="18dp"
             android:layout_below="@+id/congre_textView_name"
             android:layout_alignStart="@+id/congre_textView_name"
             android:text="Democrat"
@@ -76,44 +76,48 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:layout_below="@id/congre_imageView_party"
             android:id="@+id/congre_imageView_email"
-            android:src="@drawable/email_red"/>
+            android:src="@drawable/email_red" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_height="18dp"
             android:text="obama@gmail.com"
             android:textSize="14dp"
             android:id="@+id/congre_textView_email"
             android:textColor="#FFFFFF"
             android:layout_below="@+id/congre_textView_party"
-            android:layout_alignStart="@id/congre_textView_party"/>
+            android:layout_alignStart="@id/congre_textView_party"
+            android:autoLink="web|email"
+            android:textColorLink="#FFFFFF"/>
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             android:layout_below="@id/congre_imageView_email"
             android:id="@+id/congre_imageView_web"
             android:src="@drawable/web_red"/>
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="21dp"
+            android:layout_height="18dp"
             android:text="www.obama.com"
             android:textSize="14dp"
             android:textColor="#FFFFFF"
             android:id="@+id/congre_textView_web"
             android:layout_below="@+id/congre_textView_email"
-            android:layout_alignStart="@id/congre_textView_email" />
+            android:layout_alignStart="@id/congre_textView_email"
+            android:autoLink="web|email"
+            android:textColorLink="#FFFFFF"/>
 
         <Button
-            android:layout_width="103dp"
-            android:layout_height="30dp"
+            android:layout_width="120dp"
+            android:layout_height="28dp"
             android:layout_below="@id/congre_imageView_web"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="8dp"
@@ -129,7 +133,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="10dp"
@@ -138,8 +142,8 @@
         android:paddingRight="5dp"
         android:paddingBottom="5dp"
         android:id="@+id/congre_relativeLayout2"
-        android:layout_alignLeft="@+id/congre_imageButton"
-        android:layout_below="@+id/congre_imageButton"
+        android:layout_alignLeft="@+id/congre_imageView_person"
+        android:layout_below="@+id/congre_imageView_person"
         android:background="#444444">
         <TextView
             android:layout_width="match_parent"
